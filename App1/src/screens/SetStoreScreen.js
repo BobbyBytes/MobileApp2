@@ -12,6 +12,8 @@ import {
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const SetStoreScreen = () => {
+  var myTemp;
+  myTemp = _retrieveData();
   return (
     <View style={styles.transparentStyle}>
       <View style={styles.searchStyle}>
@@ -65,12 +67,6 @@ const SetStoreScreen = () => {
         </View>
         <View style={styles.buttonStyle}>
           <Button
-            title="StoreData"
-            backgroundColor="white"
-            onPress={() => _storeData()}
-            height="100"
-          ></Button>
-          <Button
             title="LoadData"
             backgroundColor="white"
             onPress={() => _retrieveData()}
@@ -105,12 +101,25 @@ const GooglePlacesInput = () => {
       onPress={(data, details = null) => {
         // 'details' is provided when fetchDetails = true
         //Debug messages
-        console.log(data, details);
+        console.log(data, details)
         console.log(
-          "\n Hey it's the latitude \n" + details.geometry.location.lat
+          //"\n Hey it's the type test \n" + data.structured_formatting.main_text
         );
+        if (data.structured_formatting != null){
+         myTemp = {
+            description: data.structured_formatting.main_text,
+            geometry: { location: { lat: details.geometry.location.lat, lng: details.geometry.location.lng} }
+          };
+        }
+        else if(data.description != null){
+          myTemp = {
+             description: data.description,
+             geometry: { location: { lat: data.geometry.location.lat, lng: data.geometry.location.lng} }
+           };
+        }
+
         console.log(
-          "\n Hey it's the longitude \n" + details.geometry.location.lng
+          myTemp
         );
         _mapView.animateToRegion(
           {
@@ -140,7 +149,7 @@ const GooglePlacesInput = () => {
           color: "#1faadb"
         }
       }}
-      currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+      currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
       currentLocationLabel="Current location"
       nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
       GoogleReverseGeocodingQuery={
@@ -159,7 +168,7 @@ const GooglePlacesInput = () => {
         fields: "geometry"
       }}
       filterReverseGeocodingByTypes={["establishment"]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-      predefinedPlaces={[homePlace, workPlace]}
+      predefinedPlaces={[myTemp]}
       debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
       //renderLeftButton={()  => <Text>Something</Text>}
       //renderRightButton={() => <Text>Search for store</Text>}
@@ -182,7 +191,7 @@ _retrieveData = async () => {
     const value = await AsyncStorage.getItem("TASKS");
     if (value !== null) {
       // We have data!!
-      alert("Saved Loactation: \n\n" + value);
+      //alert("Loactation Retrieved: \n\n" + value);
     }
   } catch (error) {
     // Error retrieving data
