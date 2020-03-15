@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, useRef } from "react";
 import MapView, {Circle} from "react-native-maps";
 import {
   View,
@@ -12,6 +12,7 @@ import {
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 var myTemp;
 const SetStoreScreen = () => {
+  const inputRef = useRef(null);
   myTemp = {
     description: "Work",
     geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
@@ -21,29 +22,6 @@ const SetStoreScreen = () => {
     <View style={styles.transparentStyle}>
       <View style={styles.searchStyle}>
         <GooglePlacesInput
-          placeholder="Enter Location"
-          minLength={2}
-          autoFocus={false}
-          returnKeyType={"default"}
-          fetchDetails={true}
-          styles={{
-            textInputContainer: {
-              backgroundColor: "rgba(0,0,0,0)",
-              borderTopWidth: 0,
-              borderBottomWidth: 0
-            },
-            textInput: {
-              marginLeft: 0,
-              marginRight: 0,
-              height: 38,
-              color: "#5d565d",
-              fontSize: 16
-            },
-            predefinedPlacesDescription: {
-              color: "#1faadb"
-            }
-          }}
-          currentLocation={true}
         />
       </View>
       <View style={styles.myFlexContainerColumn}>
@@ -53,12 +31,14 @@ const SetStoreScreen = () => {
             initialRegion={{
               latitude: 42.551884,
               longitude: -71.103507,
-              latitudeDelta: 0.5622,
+              latitudeDelta: 0.562,
               longitudeDelta: 0.3221
             }}
             maptype={"hybrid"} //Allows points of interest on map
             onLongPress={e =>
               _storeData(JSON.stringify(e.nativeEvent.coordinate))
+              //inputRef.center = { latitude: 48.8152937, longitude: 25.4597668 }
+
             }
             provider={"google"} //Force google maps for now
             showUserLocation={true}
@@ -70,9 +50,10 @@ const SetStoreScreen = () => {
           <MapView.Circle
           center={{latitude: myTemp.geometry.location.lat, longitude: myTemp.geometry.location.lng}}
           radius={20}
-          fillColor='rgba(255, 52, 52, 0.3)'
           strokeColor={'rgba(52, 52, 52, 0.4)'}
           strokeWidth={2}
+          fillColor={'rgba(255, 52, 52, 0.2)'}                    
+          //ref = {inputRef}
             />
           </MapView>
         </View>
@@ -91,7 +72,7 @@ const SetStoreScreen = () => {
 
 const homePlace = {
   description: "Home",
-  geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
+  geometry: { location: { lat: 48.8152937, lng: 25.4597668 } }
 };
 const workPlace = {
   description: "Work",
@@ -103,19 +84,16 @@ const GooglePlacesInput = () => {
     <GooglePlacesAutocomplete
       placeholder="Search for store"
       minLength={2} // minimum length of text to search
-      autoFocus={false}
+      autoFocus={false}      
       returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
       keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
       listViewDisplayed="auto" // true/false/undefined
-      fetchDetails={true}
+      fetchDetails={true}      
       renderDescription={row => row.description} // custom description render
       onPress={(data, details = null) => {
         // 'details' is provided when fetchDetails = true
         //Debug messages
         console.log(data, details)
-        console.log(
-          //"\n Hey it's the type test \n" + data.structured_formatting.main_text
-        );
         if (data.structured_formatting != null){
          myTemp = {
             description: data.structured_formatting.main_text,
@@ -222,6 +200,8 @@ function printCoordinate(coordinate) {
   //Print test data
   alert(coordinate);
 }
+
+//STYLES
 const styles = StyleSheet.create({
   container: {
     flex: 10,
