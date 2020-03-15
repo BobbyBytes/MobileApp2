@@ -1,5 +1,5 @@
 import React from "react";
-import MapView from "react-native-maps";
+import MapView, {Circle} from "react-native-maps";
 import {
   View,
   Text,
@@ -10,10 +10,13 @@ import {
   Button
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-
+var myTemp;
 const SetStoreScreen = () => {
-  var myTemp;
-  myTemp = _retrieveData();
+  myTemp = {
+    description: "Work",
+    geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
+  };
+  console.log("Mytemp test \n " + myTemp.geometry.location);
   return (
     <View style={styles.transparentStyle}>
       <View style={styles.searchStyle}>
@@ -63,11 +66,16 @@ const SetStoreScreen = () => {
             ref={mapView => {
               _mapView = mapView;
             }}
-          ></MapView>
+          >
+          <MapView.Circle
+          center={{latitude: 48.8496818, longitude: 2.2940881}}
+          radius={1000}
+            />
+          </MapView>
         </View>
         <View style={styles.buttonStyle}>
           <Button
-            title="LoadData"
+            title="Load Data"
             backgroundColor="white"
             onPress={() => _retrieveData()}
             height="100"
@@ -75,7 +83,7 @@ const SetStoreScreen = () => {
         </View>
       </View>
     </View>
-  );
+      );
 };
 
 const homePlace = {
@@ -191,7 +199,15 @@ _retrieveData = async () => {
     const value = await AsyncStorage.getItem("TASKS");
     if (value !== null) {
       // We have data!!
-      //alert("Loactation Retrieved: \n\n" + value);
+      alert("Loactation Retrieved: \n\n" + value);
+      console.log("Retrieve data test \n" + value);
+      return value;
+    }
+    else{
+      value ={
+        description: "Work",
+        geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }}
+        return value;
     }
   } catch (error) {
     // Error retrieving data
