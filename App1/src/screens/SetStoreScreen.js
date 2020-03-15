@@ -68,8 +68,11 @@ const SetStoreScreen = () => {
             }}
           >
           <MapView.Circle
-          center={{latitude: 48.8496818, longitude: 2.2940881}}
-          radius={1000}
+          center={{latitude: myTemp.geometry.location.lat, longitude: myTemp.geometry.location.lng}}
+          radius={20}
+          fillColor='rgba(255, 52, 52, 0.3)'
+          strokeColor={'rgba(52, 52, 52, 0.4)'}
+          strokeWidth={2}
             />
           </MapView>
         </View>
@@ -188,6 +191,7 @@ const GooglePlacesInput = () => {
 _storeData = async coordinate => {
   try {
     await AsyncStorage.setItem("TASKS", coordinate);
+    myTemp = coordinate;
     alert("Location Stored");
   } catch (error) {
     // Error saving data
