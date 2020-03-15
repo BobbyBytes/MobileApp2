@@ -13,7 +13,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 
 const SetStoreScreen = () => {
   return (
-    <View style={styles.myFlexContainerColumn}>
+    <View style={styles.transparentStyle}>
       <View style={styles.searchStyle}>
         <GooglePlacesInput
           placeholder="Enter Location"
@@ -41,40 +41,42 @@ const SetStoreScreen = () => {
           currentLocation={true}
         />
       </View>
-      <View style={styles.container}>
-        <MapView
-          style={styles.mapStyle}
-          initialRegion={{
-            latitude: 42.551884,
-            longitude: -71.103507,
-            latitudeDelta: 0.5622,
-            longitudeDelta: 0.3221
-          }}
-          maptype={"hybrid"} //Allows points of interest on map
-          onLongPress={e =>
-            _storeData(JSON.stringify(e.nativeEvent.coordinate))
-          }
-          provider={"google"} //Force google maps for now
-          showUserLocation={true}
-          showsMyLocationButton={true}
-          ref={mapView => {
-            _mapView = mapView;
-          }}
-        ></MapView>
-      </View>
-      <View style={styles.buttonStyle}>
-        <Button
-          title="StoreData"
-          backgroundColor="white"
-          onPress={() => _storeData()}
-          height="100"
-        ></Button>
-        <Button
-          title="LoadData"
-          backgroundColor="white"
-          onPress={() => _retrieveData()}
-          height="100"
-        ></Button>
+      <View style={styles.myFlexContainerColumn}>
+        <View style={styles.container}>
+          <MapView
+            style={styles.mapStyle}
+            initialRegion={{
+              latitude: 42.551884,
+              longitude: -71.103507,
+              latitudeDelta: 0.5622,
+              longitudeDelta: 0.3221
+            }}
+            maptype={"hybrid"} //Allows points of interest on map
+            onLongPress={e =>
+              _storeData(JSON.stringify(e.nativeEvent.coordinate))
+            }
+            provider={"google"} //Force google maps for now
+            showUserLocation={true}
+            showsMyLocationButton={true}
+            ref={mapView => {
+              _mapView = mapView;
+            }}
+          ></MapView>
+        </View>
+        <View style={styles.buttonStyle}>
+          <Button
+            title="StoreData"
+            backgroundColor="white"
+            onPress={() => _storeData()}
+            height="100"
+          ></Button>
+          <Button
+            title="LoadData"
+            backgroundColor="white"
+            onPress={() => _retrieveData()}
+            height="100"
+          ></Button>
+        </View>
       </View>
     </View>
   );
@@ -92,7 +94,7 @@ const workPlace = {
 const GooglePlacesInput = () => {
   return (
     <GooglePlacesAutocomplete
-      placeholder="Search"
+      placeholder="Search for store"
       minLength={2} // minimum length of text to search
       autoFocus={false}
       returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -160,7 +162,7 @@ const GooglePlacesInput = () => {
       predefinedPlaces={[homePlace, workPlace]}
       debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
       //renderLeftButton={()  => <Text>Something</Text>}
-      renderRightButton={() => <Text>Search for store</Text>}
+      //renderRightButton={() => <Text>Search for store</Text>}
     />
   );
 };
@@ -193,19 +195,20 @@ function printCoordinate(coordinate) {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 10,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 1
   },
   mapStyle: {
+    flex: 1,
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").width
+    height: (Dimensions.get("window").height / 2)
   },
   myFlexContainerColumn: {
-    flex: 1,
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonStyle: {
     flex: 1,
@@ -214,10 +217,22 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   searchStyle: {
-    flex: 4,
-    backgroundColor: "#fff",
+    backgroundColor: 'white',
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 3,
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    width: Dimensions.get("window").width,
+  },
+  transparentStyle: {
+    backgroundColor: 'transparent',
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 3,
+    flex: 1,
+    width: Dimensions.get("window").width,
   }
 });
 export default SetStoreScreen;
