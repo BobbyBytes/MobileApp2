@@ -1,5 +1,6 @@
 import React, { Component, useRef } from "react";
 import MapView, {Circle} from "react-native-maps";
+import * as Permissions from 'expo-permissions';
 import {
   View,
   Text,
@@ -12,11 +13,8 @@ import {
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 var myTemp;
 const SetStoreScreen = () => {
+  alertIfLocationDisabledAsync();
   const inputRef = useRef(null);
-  myTemp = {
-    description: "Work",
-    geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
-  };
   console.log("Mytemp test \n " + myTemp.geometry.location);
   return (
     <View style={styles.transparentStyle}>
@@ -70,13 +68,20 @@ const SetStoreScreen = () => {
       );
 };
 
+// Some hardcoded test locations.. 
 const homePlace = {
+
   description: "Home",
   geometry: { location: { lat: 48.8152937, lng: 25.4597668 } }
 };
 const workPlace = {
   description: "Work",
   geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
+};
+// One as a temp var, for testing
+myTemp = {
+  description: "Somewhere",
+  geometry: { location: { lat: 18.8496818, lng: 75.2940881 } }
 };
 
 const GooglePlacesInput = () => {
@@ -88,7 +93,9 @@ const GooglePlacesInput = () => {
       returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
       keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
       listViewDisplayed="auto" // true/false/undefined
-      fetchDetails={true}      
+      fetchDetails={true} 
+      showUserLocation={true}
+      showsMyLocationButton={true}     
       renderDescription={row => row.description} // custom description render
       onPress={(data, details = null) => {
         // 'details' is provided when fetchDetails = true
@@ -125,7 +132,7 @@ const GooglePlacesInput = () => {
         // available options: https://developers.google.com/places/web-service/autocomplete
         key: "AIzaSyCxfb9miMdmQuqsvDS1wWZOcznNTPfY9kA",
         language: "en", // language of the results
-        types: "establishment" // default: 'geocode'
+        types: "establishment" // default: 'geocode' this should show only stores, all we really want for this application
       }}
       styles={{
         textInputContainer: {
@@ -159,12 +166,16 @@ const GooglePlacesInput = () => {
       filterReverseGeocodingByTypes={["establishment"]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
       predefinedPlaces={[myTemp]}
       debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-      //renderLeftButton={()  => <Text>Something</Text>}
-      //renderRightButton={() => <Text>Search for store</Text>}
     />
   );
 };
 
+async function alertIfLocationDisabledAsync() {
+  const { status } = await Permissions.getAsync(Permissions.LOCATION);
+  if (status !== 'granted') {
+    alert('Hey! You might want to enable your location for my app, I can\'t remind you otherwise.');
+  }
+}
 //Store Persistant Data function
 _storeData = async coordinate => {
   try {
@@ -195,6 +206,7 @@ _retrieveData = async () => {
     // Error retrieving data
   }
 };
+
 //Test function
 function printCoordinate(coordinate) {
   //Print test data
