@@ -50,7 +50,7 @@ const SetStoreScreen = () => {
           radius={20}
           strokeColor={'rgba(52, 52, 52, 0.4)'}
           strokeWidth={2}
-          fillColor={'rgba(255, 52, 52, 0.2)'}                    
+          fillColor={'rgba(255, 52, 52, 0.2)'}
           //ref = {inputRef}
             />
           </MapView>
@@ -68,7 +68,7 @@ const SetStoreScreen = () => {
       );
 };
 
-// Some hardcoded test locations.. 
+// Some hardcoded test locations..
 const homePlace = {
 
   description: "Home",
@@ -89,13 +89,13 @@ const GooglePlacesInput = () => {
     <GooglePlacesAutocomplete
       placeholder="Search for store"
       minLength={2} // minimum length of text to search
-      autoFocus={false}      
+      autoFocus={false}
       returnKeyType={"search"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
       keyboardAppearance={"light"} // Can be left out for default keyboardAppearance https://facebook.github.io/react-native/docs/textinput.html#keyboardappearance
       listViewDisplayed="auto" // true/false/undefined
-      fetchDetails={true} 
+      fetchDetails={true}
       showUserLocation={true}
-      showsMyLocationButton={true}     
+      showsMyLocationButton={true}
       renderDescription={row => row.description} // custom description render
       onPress={(data, details = null) => {
         // 'details' is provided when fetchDetails = true
