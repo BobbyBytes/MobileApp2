@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, StyleSheet, FlatList, Button} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from 'react-native';
 
 const GroceryListsScreen = ({navigation}) => {
 
@@ -14,9 +14,7 @@ const lists = [
 {name: 'List 8'},
 {name: 'List 9'},
 {name: 'List 10'},
-
 ];
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -26,7 +24,12 @@ const lists = [
         keyExtractor={list => list.name}
         renderItem={({ item }) => {
           return (
-            <Text style= {styles.textStyle}>{item.name}</Text>
+            <TouchableOpacity
+              onPress= {() => console.log(`List ${item.name} pressed`)
+              }
+              >
+              <Text style= {styles.textStyle}>{item.name}</Text>
+              </TouchableOpacity>
           );
         }}
         />
@@ -36,7 +39,6 @@ const lists = [
           title = "Make List"
           />
           </View>
-
 
         </View>
     );
