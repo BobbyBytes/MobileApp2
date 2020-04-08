@@ -1,8 +1,22 @@
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Alert } from 'react-native';
 
+const reducer = (state, action) => {
+  // state === {count: number }
+  // action === {type: 'increment', || 'decrement', payload: 1}
+  switch (action.type) {
+    case 'increment':
+      return { ...state, count: state.count + action.payload };
+    case 'decrement':
+      return { ...state, count: state.count - action.payload };
+    default:
+      return state;
+  }
+
+};
+
 const GroceryListScreen = ({navigation}) => {
-  const [counter, setCounter] = useState(0);
+  const[state, dispatch] = useReducer(reducer, {count: 0})
   const food_items = [
   {name: 'Food Item #1'},
   {name: 'Food Item #2'},
@@ -16,11 +30,10 @@ const GroceryListScreen = ({navigation}) => {
 ];
 
 const setCounter_increment = (item) => {
-  setCounter(counter + 1)
+  dispatch({type: 'increment', payload: 1})
   Alert.alert(`${item.name} pressed`)
 
 }
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -46,7 +59,7 @@ const setCounter_increment = (item) => {
             title = "Set Reminder"
             />
             </View>
-              <Text> Current Count: {counter} </Text>
+              <Text> Current Count: {state.count} </Text>
         </View>
       );
 
@@ -64,6 +77,5 @@ container: {
   marginVertical: 30
 }
 });
-
 
 export default GroceryListScreen;
