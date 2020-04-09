@@ -12,27 +12,25 @@ const reducer = (state, action) => {
     default:
       return state;
   }
-
 };
 
 const GroceryListScreen = ({navigation}) => {
   const[state, dispatch] = useReducer(reducer, {count: 0})
   const food_items = [
-  {name: 'Food Item #1'},
-  {name: 'Food Item #2'},
-  {name: 'Food Item #3'},
-  {name: 'Food Item #4'},
-  {name: 'Food Item #5'},
-  {name: 'Food Item #6'},
-  {name: 'Food Item #7'},
-  {name: 'Food Item #8'},
-  {name: 'Food Item #9'},
+  {name: 'eggs:'},
+  {name: 'milk:'},
+  {name: 'bread:'},
+  {name: 'coffee:'},
+  {name: 'beer:'},
+  {name: 'cheese:'},
+  {name: 'broccoli:'},
+  {name: 'rice:'},
+  {name: 'carrot:'},
 ];
 
 const setCounter_increment = (item) => {
   dispatch({type: 'increment', payload: 1})
   Alert.alert(`${item.name} pressed`)
-
 }
   return (
     <View style={styles.container}>
@@ -43,17 +41,22 @@ const setCounter_increment = (item) => {
         keyExtractor={food_item => food_item.name}
         renderItem={({ item }) => {
             return (
-              <TouchableOpacity
-                onPress= {() => setCounter_increment(item)
-                }
-                >
-                <Text style= {styles.textStyle}>{item.name}</Text>
-                </TouchableOpacity>
+                <View style={styles.container}>
+                    <Text style= {styles.textStyle}>{item.name}
+                      </Text>
+                  <View style={styles.buttonContainer_one}>
+                    <Button onPress ={console.log("FlatList button QTY pressed")}
+                    title = "QTY Increase:"/>
+                    </View>
+                    <View style={styles.buttonContainer_one}>
+                      <Button onPress ={console.log("FlatList button QTY pressed")}
+                      title = "QTY Decrease:"/>
+                      </View>
+                </View>
             );
         }} />
 
-
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonContainer_two}>
         <Button
             onPress = {() => navigation.navigate("Reminder")}
             title = "Set Reminder"
@@ -62,7 +65,6 @@ const setCounter_increment = (item) => {
               <Text> Current Count: {state.count} </Text>
         </View>
       );
-
 };
 
 const styles = StyleSheet.create({
@@ -70,11 +72,17 @@ container: {
   flex: 1,
   justifyContent: 'center',
 },
-  buttonContainer: {
+buttonContainer_one: {
+  marginRight: 250,
+  margin: 20,
+  justifyContent: 'flex-start'
+},
+buttonContainer_two: {
   margin: 30
   },
-  textStyle: {
-  marginVertical: 30
+textStyle: {
+  fontSize: 15,
+  //marginVertical: 30
 }
 });
 
