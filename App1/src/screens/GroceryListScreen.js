@@ -37,7 +37,6 @@ const setCounter_increment = (item) => {
   Alert.alert(`${item.name} pressed`)
   set_grocery_items([...grocery_items, item.name]);
 }
-
  return (
    <View style={styles.container_one}>
      <FlatList
@@ -66,8 +65,6 @@ const setCounter_increment = (item) => {
                );
            }}
            />
-
-
      <View style={styles.buttonContainer_two}>
        <Button
            onPress = {() => navigation.navigate("Reminder")}
@@ -93,12 +90,13 @@ buttonContainer_two: {
  margin: 30
  },
 textStyle: {
- fontSize: 15,
- marginVertical: 30
+ fontSize: 40,
+ backgroundColor: "green",
+ borderColor: "black",
+ borderWidth: 4,
 },
 textStyle_two: {
- backgroundColor: "green",
- fontSize: 15,
+ fontSize: 20,
 }
 
 });
