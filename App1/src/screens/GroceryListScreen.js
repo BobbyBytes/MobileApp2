@@ -1,6 +1,7 @@
 
 import React, { useReducer, useState } from 'react'
-import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Alert } from 'react-native';
+import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Alert, Image } from 'react-native';
+import imageDetail from '../components/imageDetail'
 
 const reducer = (state, action) => {
  // state === {count: number }
@@ -17,16 +18,18 @@ const reducer = (state, action) => {
 
 const GroceryListScreen = ({navigation}) => {
  const[state, dispatch] = useReducer(reducer, {count: 0})
+
+ //Food list array of tuples
  const food_items = [
- {name: 'eggs:'},
- {name: 'milk:'},
- {name: 'bread:'},
- {name: 'coffee:'},
- {name: 'beer:'},
- {name: 'cheese:'},
- {name: 'broccoli:'},
- {name: 'rice:'},
- {name: 'carrot:'},
+ {name: 'eggs:',      image: require('../../assets/eggs.jpg')},
+ {name: 'milk:',      image: require ('../../assets/milk.jpg')},
+ {name: 'bread:',     image: require('../../assets/eggs.jpg')},
+ {name: 'coffee:',    image: require('../../assets/eggs.jpg')},
+ {name: 'beer:',      image: require('../../assets/eggs.jpg')},
+ {name: 'cheese:',    image: require('../../assets/eggs.jpg')},
+ {name: 'broccoli:',  image: require('../../assets/eggs.jpg')},
+ {name: 'rice:',      image: require('../../assets/eggs.jpg')},
+ {name: 'carrot:',    image: require ('../../assets/eggs.jpg')},
 ];
 const [grocery_items, set_grocery_items] = useState([])
 console.log(grocery_items);
@@ -44,12 +47,16 @@ const setCounter_increment = (item) => {
        showsVerticalScrollIndicator = {false}
        data = {food_items}
        keyExtractor={food_item => food_item.name}
+       keyExtractor={food_item => food_item.image}
        renderItem={({ item }) => {
            return (
              <TouchableOpacity
                 onPress= {() => setCounter_increment(item)}
                 >
+              <View>
                 <Text style= {styles.textStyle}>{item.name}</Text>
+                  <Image source={item.image}/>
+                 </View>
                </TouchableOpacity>
            );
        }} />
