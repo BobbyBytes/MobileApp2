@@ -23,13 +23,13 @@ const GroceryListScreen = ({navigation}) => {
  const food_items = [
  {name: 'eggs:',      image: require('../../assets/eggs.jpg')},
  {name: 'milk:',      image: require ('../../assets/milk.jpg')},
- {name: 'bread:',     image: require('../../assets/eggs.jpg')},
- {name: 'coffee:',    image: require('../../assets/eggs.jpg')},
- {name: 'beer:',      image: require('../../assets/eggs.jpg')},
- {name: 'cheese:',    image: require('../../assets/eggs.jpg')},
- {name: 'broccoli:',  image: require('../../assets/eggs.jpg')},
- {name: 'rice:',      image: require('../../assets/eggs.jpg')},
- {name: 'carrot:',    image: require ('../../assets/eggs.jpg')},
+ {name: 'bread:',     image: require('../../assets/bread.jpg')},
+ {name: 'coffee:',    image: require('../../assets/coffee.jpeg')},
+ {name: 'beer:',      image: require('../../assets/beer.jpg')},
+ {name: 'cheese:',    image: require('../../assets/cheese.jpg')},
+ {name: 'broccoli:',  image: require('../../assets/broccoli.jpg')},
+ {name: 'rice:',      image: require('../../assets/rice.jpg')},
+ {name: 'carrot:',    image: require ('../../assets/carrot.jpeg')},
 ];
 const [grocery_items, set_grocery_items] = useState([])
 console.log(grocery_items);
@@ -53,14 +53,15 @@ const setCounter_increment = (item) => {
              <TouchableOpacity
                 onPress= {() => setCounter_increment(item)}
                 >
-              <View>
+              <View style={styles.container_two}>
                 <Text style= {styles.textStyle}>{item.name}</Text>
-                  <Image source={item.image}/>
+                  <Image source={item.image} style={styles.image}/>
                  </View>
                </TouchableOpacity>
            );
        }} />
 
+       <View style={styles.container_three}>
          <FlatList
           keyExtractor={(item) => item}
            vertical
@@ -72,6 +73,9 @@ const setCounter_increment = (item) => {
                );
            }}
            />
+          </View>
+
+
      <View style={styles.buttonContainer_two}>
        <Button
            onPress = {() => navigation.navigate("Reminder")}
@@ -88,22 +92,47 @@ container_one: {
  flex: 1,
  justifyContent: 'center',
 },
+
+container_two: {
+ flex: 1,
+ justifyContent: 'center',
+ backgroundColor: "green",
+ borderColor: "black",
+ borderWidth: 4,
+},
+
+container_three: {
+ marginRight: 250,
+ margin: 20,
+ justifyContent: 'flex-start',
+ borderColor: "black",
+ borderWidth: 4,
+},
+
 buttonContainer_one: {
  marginRight: 250,
  margin: 20,
  justifyContent: 'flex-start'
 },
+
 buttonContainer_two: {
  margin: 30
  },
+
 textStyle: {
  fontSize: 40,
- backgroundColor: "green",
- borderColor: "black",
- borderWidth: 4,
 },
+
 textStyle_two: {
  fontSize: 20,
+},
+
+image: {
+  flex: 1,
+  resizeMode: 'contain',
+  width: 400,
+  //height: 500,
+  justifyContent: 'center',
 }
 
 });
