@@ -109,7 +109,7 @@ const GooglePlacesInput = () => {
         }
         else if(data.description != null){
           myTemp = {
-             description: data.description,
+              description: data.description,
              geometry: { location: { lat: data.geometry.location.lat, lng: data.geometry.location.lng} }
            };
         }
