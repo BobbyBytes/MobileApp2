@@ -6,6 +6,7 @@ import SetStoreScreen from "./src/screens/SetStoreScreen"
 import PreferencesScreen from "./src/screens/PreferencesScreen"
 import GroceryListScreen from "./src/screens/GroceryListScreen"
 import ReminderScreen from "./src/screens/ReminderScreen"
+import ShowListScreen from "./src/screens/ShowListScreen"
 import * as firebase from 'firebase';
 
 
@@ -28,6 +29,8 @@ const navigator = createStackNavigator(
     Preferences: PreferencesScreen,
     GroceryList: GroceryListScreen,
     Reminder: ReminderScreen,
+    ShowList: ShowListScreen,
+    
   },
   {
     initialRouteName: "Home",

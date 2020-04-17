@@ -32,7 +32,7 @@ const GroceryListScreen = ({navigation}) => {
  {name: 'carrot:',    image: require ('../../assets/carrot.jpeg')},
 ];
 const [grocery_items, set_grocery_items] = useState([])
-console.log(grocery_items);
+//console.log(grocery_items);
 
 //Helper function
 const setCounter_increment = (item) => {
@@ -75,11 +75,10 @@ const setCounter_increment = (item) => {
            />
           </View>
 
-
      <View style={styles.buttonContainer_two}>
        <Button
-           onPress = {() => navigation.navigate("Reminder")}
-           title = "Set Reminder"
+           onPress = {() => navigation.navigate("ShowList", {id_one: grocery_items, id_two: state.count})}
+           title = "Save List"
            />
            </View>
              <Text> Current Count: {state.count} </Text>
