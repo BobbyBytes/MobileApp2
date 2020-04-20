@@ -1,7 +1,22 @@
 import React from 'react'
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from 'react-native';
+import { AsyncStorage } from 'react-native';
+
 
 const GroceryListsScreen = ({navigation}) => {
+
+  const retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@MySuperStore:key');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
 
 const lists = [
 {name: 'List 1'},
@@ -25,7 +40,7 @@ const lists = [
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress= {() => console.log(`List ${item.name} pressed`)
+              onPress= {() => retrieveData()
               }
               >
               <Text style= {styles.textStyle}>{item.name}</Text>
