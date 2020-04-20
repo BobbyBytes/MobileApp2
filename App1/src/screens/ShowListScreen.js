@@ -3,8 +3,6 @@ import {View, Text, StyleSheet, FlatList, Button, Alert } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { AsyncStorage } from 'react-native';
 
-
-
 const ShowListScreen = ( { navigation } ) => {
   const id_one = navigation.getParam('id_one');
   const id_two = navigation.getParam('id_two');
@@ -12,25 +10,33 @@ const ShowListScreen = ( { navigation } ) => {
 //helper function
 const save_list_func = () => {
   Alert.alert(`List saved!!`);
-  //console.log("In showscreen");
-  //console.log(id_two);
-  storeData();
   //retrieveData();
 
+  //get date and use date as key
+  var full_date;
+  var month = new Date().getMonth() + 1;
+  //Gets day of the month
+  var day = new Date().getDate();
+  var year = new Date().getFullYear();
+  var min = new Date().getMinutes();
+  full_date = month + '/' + day + '/' + year + '/' + min;
+  storeData(full_date);
+  //retrieveData(full_date);
+  get_keys();
+  delete_keys();
 }
 
-const storeData = async () => {
+const storeData = async (full_date) => {
   try {
-    await AsyncStorage.setItem('@MySuperStore:key', JSON.stringify(id_one));
+    await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(id_one));
   } catch (error) {
     // Error saving data
   }
 };
-
 /*
-const retrieveData = async () => {
+const retrieveData = async (full_date) => {
   try {
-    const value = await AsyncStorage.getItem('@MySuperStore:key');
+    const value = await AsyncStorage.getItem(full_date);
     if (value !== null) {
       // We have data!!
       console.log(value);
@@ -40,6 +46,29 @@ const retrieveData = async () => {
   }
 };
 */
+const get_keys = () => {
+  var keys = [];
+  AsyncStorage.getAllKeys((err, keys) => {
+    AsyncStorage.multiGet(keys, (err, stores) => {
+      stores.map((result, i, store) => {
+        // get at each store's key/value so you can work with it
+        let key = store[i][0];
+        let value = store[i][1];
+        console.log(key);
+        //console.log(value);
+      });
+    });
+  });
+}
+
+const delete_keys = () => {
+  let keys = ['4/20/2020/25', '4/20/2020/27', '4/20/2020/27', '4/20/2020/41', '4/20/2020/46', '4/20/2020/47', '4/20/2020/50'];
+  AsyncStorage.multiRemove(keys, err => {
+    // keys k1 & k2 removed, if they existed
+    // do most stuff after removal (if you want)
+  });
+}
+
 
 return(
 <View style={styles.container}>
