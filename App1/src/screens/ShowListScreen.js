@@ -31,6 +31,7 @@ const storeData = async (full_date) => {
     await AsyncStorage.setItem(full_date, JSON.stringify(id_one));
   } catch (error) {
     // Error saving data
+    console.log("Error saving data")
   }
 };
 /*

@@ -5,22 +5,21 @@ import { StackNavigator } from 'react-navigation';
 
 const GroceryListsScreen = ({navigation}) => {
   var lists = [];
-  const id_one = navigation.getParam('id_one');
+
   //Retrieve data helper function
-  const retrieveData = async () => {
+  const retrieveData = async (item) => {
     try {
-      const value = await AsyncStorage.getItem('@MySuperStore:key');
+      const value = await AsyncStorage.getItem(item);
       if (value !== null) {
         // We have data!!
-        //console.log(value);
+        console.log(value);
         console.log("Retrieve pressed");
+        navigation.navigate("ShowDB", {id_one: value});
       }
     } catch (error) {
       // Error retrieving data
     }
   };
-
-
   //Get keys helper function
   const get_keys = () => {
     var keys = [];
@@ -63,7 +62,7 @@ const GroceryListsScreen = ({navigation}) => {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress= {() => console.log("Number 1 bullshit")
+              onPress= {() => retrieveData(item)
               }
               >
               <Text style= {styles.textStyle}>{item}</Text>

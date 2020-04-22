@@ -7,9 +7,9 @@ import PreferencesScreen from "./src/screens/PreferencesScreen"
 import GroceryListScreen from "./src/screens/GroceryListScreen"
 import ReminderScreen from "./src/screens/ReminderScreen"
 import ShowListScreen from "./src/screens/ShowListScreen"
+import ShowDBList from "./src/screens/ShowDBList"
+/*
 import * as firebase from 'firebase';
-
-
 // Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCxfb9miMdmQuqsvDS1wWZOcznNTPfY9kA",
@@ -21,6 +21,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+*/
+
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
@@ -30,8 +32,9 @@ const navigator = createStackNavigator(
     GroceryList: GroceryListScreen,
     Reminder: ReminderScreen,
     ShowList: ShowListScreen,
-    
+    ShowDB: ShowDBList,
   },
+
   {
     initialRouteName: "Home",
     defaultNavigationOptions: {
