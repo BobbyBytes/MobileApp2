@@ -8,6 +8,18 @@ const ShowDBList = ( {navigation} ) => {
   //https://www.dyn-web.com/javascript/strings/split.php
   var output_arr = id_one.split(',');
 
+  //Delete key helper function
+  const delete_keys = () => {
+    console.log("delete_keys called");
+    let keys = ['@MySuperStore:key', '@MySuperStore:key1'];
+    AsyncStorage.multiRemove(keys, err => {
+      // keys k1 & k2 removed, if they existed
+      // do most stuff after removal (if you want)
+    });
+  }
+
+
+
 return(
 <View>
         <View style={styles.container}>

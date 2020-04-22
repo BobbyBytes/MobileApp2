@@ -8,17 +8,10 @@ import { StackNavigator } from 'react-navigation';
 const HomeScreen = ({navigation}) => {
 
 
-  const make_list_func = () => {
-
-      navigation.navigate("GroceryLists");
-
-  }
-
-
   return <View style={styles.container}>
     <View style={styles.buttonContainer}>
       <Button
-        onPress = {() => make_list_func()}
+        onPress = {() => navigation.navigate("GroceryLists")}
         title = "Make List"
         />
         </View>
