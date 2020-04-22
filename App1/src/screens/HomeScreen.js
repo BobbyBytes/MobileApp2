@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useState } from 'react'
 import { Text, StyleSheet, View, Button, TouchableOpacity } from "react-native";
+import { AsyncStorage } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+
 
 
 const HomeScreen = ({navigation}) => {
+
+
+  const make_list_func = () => {
+
+      navigation.navigate("GroceryLists");
+
+  }
+
+
   return <View style={styles.container}>
     <View style={styles.buttonContainer}>
       <Button
-        onPress = {() => navigation.navigate("GroceryLists")}
+        onPress = {() => make_list_func()}
         title = "Make List"
         />
         </View>

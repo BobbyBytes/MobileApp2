@@ -22,13 +22,13 @@ const save_list_func = () => {
   full_date = month + '/' + day + '/' + year + '/' + min;
   storeData(full_date);
   //retrieveData(full_date);
-  get_keys();
-  delete_keys();
+  //get_keys();
+  //delete_keys();
 }
 
 const storeData = async (full_date) => {
   try {
-    await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(id_one));
+    await AsyncStorage.setItem(full_date, JSON.stringify(id_one));
   } catch (error) {
     // Error saving data
   }
@@ -55,14 +55,14 @@ const get_keys = () => {
         let key = store[i][0];
         let value = store[i][1];
         console.log(key);
-        //console.log(value);
+        console.log(value);
       });
     });
   });
 }
 
 const delete_keys = () => {
-  let keys = ['4/20/2020/25', '4/20/2020/27', '4/20/2020/27', '4/20/2020/41', '4/20/2020/46', '4/20/2020/47', '4/20/2020/50'];
+  let keys = [];
   AsyncStorage.multiRemove(keys, err => {
     // keys k1 & k2 removed, if they existed
     // do most stuff after removal (if you want)

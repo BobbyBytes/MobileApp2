@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from 'react-native';
 import { AsyncStorage } from 'react-native';
-
+import { StackNavigator } from 'react-navigation';
 
 const GroceryListsScreen = ({navigation}) => {
-
+  var lists = [];
+  const id_one = navigation.getParam('id_one');
+  //Retrieve data helper function
   const retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem('@MySuperStore:key');
       if (value !== null) {
         // We have data!!
-        console.log(value);
+        //console.log(value);
+        console.log("Retrieve pressed");
       }
     } catch (error) {
       // Error retrieving data
@@ -18,32 +21,52 @@ const GroceryListsScreen = ({navigation}) => {
   };
 
 
-const lists = [
-{name: 'List 1'},
-{name: 'List 2'},
-{name: 'List 3'},
-{name: 'List 4'},
-{name: 'List 5'},
-{name: 'List 6'},
-{name: 'List 7'},
-{name: 'List 8'},
-{name: 'List 9'},
-{name: 'List 10'},
-];
+  //Get keys helper function
+  const get_keys = () => {
+    var keys = [];
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        stores.map((result, i, store) => {
+          // get at each store's key/value so you can work with it
+          let key = store[i][0];
+          let value = store[i][1];
+          lists.push(key);
+          //console.log("in Grocery Lists screen")
+          //console.log(key);
+          //console.log(value);
+          console.log(lists);
+        });
+      });
+    });
+  }
+
+  //Delete key helper function
+  const delete_keys = () => {
+    console.log("delete_keys called");
+    let keys = ['@MySuperStore:key', '@MySuperStore:key1'];
+    AsyncStorage.multiRemove(keys, err => {
+      // keys k1 & k2 removed, if they existed
+      // do most stuff after removal (if you want)
+    });
+  }
+
+  get_keys();
+
+
   return (
     <View style={styles.container}>
       <FlatList
         vertical
         showsVerticalScrollIndicator = {false}
         data = {lists}
-        keyExtractor={list => list.name}
+        keyExtractor={list => list}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress= {() => retrieveData()
+              onPress= {() => console.log("Number 1 bullshit")
               }
               >
-              <Text style= {styles.textStyle}>{item.name}</Text>
+              <Text style= {styles.textStyle}>{item}</Text>
               </TouchableOpacity>
           );
         }}
