@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from 'react'
 import { Text, StyleSheet, View, Button, TouchableOpacity } from "react-native";
-
+import { AsyncStorage } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 const HomeScreen = ({navigation}) => {
+
+
   return <View style={styles.container}>
     <View style={styles.buttonContainer}>
       <Button
@@ -14,7 +17,7 @@ const HomeScreen = ({navigation}) => {
     <View style={styles.buttonContainer}>
         <Button
           onPress = {() => navigation.navigate("SetStore")}
-          title = "SetStore"
+          title = "Set Store"
           />
      </View>
 

@@ -1,34 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from 'react-native';
+import { AsyncStorage } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 const GroceryListsScreen = ({navigation}) => {
+  var lists = [];
+  
+  //Retrieve data helper function
+  const retrieveData = async (item) => {
+    try {
+      const value = await AsyncStorage.getItem(item);
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+        console.log("Retrieve pressed");
+        navigation.navigate("ShowDB", {id_one: value, id_two: item});
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+  //Get keys helper function
+  const get_keys = () => {
+    var keys = [];
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (err, stores) => {
+        stores.map((result, i, store) => {
+          // get at each store's key/value so you can work with it
+          let key = store[i][0];
+          let value = store[i][1];
+          lists.push(key);
+          //console.log("in Grocery Lists screen")
+          //console.log(key);
+          //console.log(value);
+          console.log(lists);
+        });
+      });
+    });
+  }
 
-const lists = [
-{name: 'List 1'},
-{name: 'List 2'},
-{name: 'List 3'},
-{name: 'List 4'},
-{name: 'List 5'},
-{name: 'List 6'},
-{name: 'List 7'},
-{name: 'List 8'},
-{name: 'List 9'},
-{name: 'List 10'},
-];
+  get_keys();
   return (
     <View style={styles.container}>
       <FlatList
         vertical
         showsVerticalScrollIndicator = {false}
         data = {lists}
-        keyExtractor={list => list.name}
+        keyExtractor={list => list}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress= {() => console.log(`List ${item.name} pressed`)
-              }
+              onPress= {() => retrieveData(item)}
               >
-              <Text style= {styles.textStyle}>{item.name}</Text>
+               <View style= {styles.container_two}>
+                  <Text style= {styles.textStyle}>List: {item}</Text>
+                </View>
               </TouchableOpacity>
           );
         }}
@@ -50,11 +76,18 @@ container: {
   flex: 1,
   justifyContent: 'center',
 },
+container_two: {
+ flex: 1,
+ justifyContent: 'center',
+ borderColor: "black",
+ borderWidth: 1,
+},
   buttonContainer: {
-  margin: 30
+    margin: 30,
+    fontSize: 30,
   },
   textStyle: {
-  marginVertical: 30
+    marginVertical: 30
 }
 });
 

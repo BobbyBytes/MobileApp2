@@ -18,27 +18,33 @@ const reducer = (state, action) => {
 
 const GroceryListScreen = ({navigation}) => {
  const[state, dispatch] = useReducer(reducer, {count: 0})
+ const[total, set_total] = useState(0)
 
  //Food list array of tuples
  const food_items = [
- {name: 'eggs:',      image: require('../../assets/eggs.jpg')},
- {name: 'milk:',      image: require ('../../assets/milk.jpg')},
- {name: 'bread:',     image: require('../../assets/bread.jpg')},
- {name: 'coffee:',    image: require('../../assets/coffee.jpeg')},
- {name: 'beer:',      image: require('../../assets/beer.jpg')},
- {name: 'cheese:',    image: require('../../assets/cheese.jpg')},
- {name: 'broccoli:',  image: require('../../assets/broccoli.jpg')},
- {name: 'rice:',      image: require('../../assets/rice.jpg')},
- {name: 'carrot:',    image: require ('../../assets/carrot.jpeg')},
+ {name: 'eggs',      image: require('../../assets/eggs.jpg'), price: 3.25},
+ {name: 'milk',      image: require ('../../assets/milk.jpg'), price: 4.99},
+ {name: 'bread',     image: require('../../assets/bread.jpg'), price: 2.99},
+ {name: 'coffee',    image: require('../../assets/coffee.jpeg'), price: 11.00},
+ {name: 'beer',      image: require('../../assets/beer.jpg'), price: 10.99},
+ {name: 'cheese',    image: require('../../assets/cheese.jpg'), price: 5.00},
+ {name: 'broccoli',  image: require('../../assets/broccoli.jpg'), price: 2.50},
+ {name: 'rice',      image: require('../../assets/rice.jpg'), price: 3.00},
+ {name: 'carrot',    image: require ('../../assets/carrot.jpeg'), price: 1.50},
 ];
+
+//Array that is constructed and passed to ShowListScreen.js
 const [grocery_items, set_grocery_items] = useState([])
-//console.log(grocery_items);
+
 
 //Helper function
 const setCounter_increment = (item) => {
   dispatch({type: 'increment', payload: 1})
-  Alert.alert(`${item.name} pressed`)
+  Alert.alert(`${item.name} selected`)
   set_grocery_items([...grocery_items, item.name]);
+  set_total(total + item.price);
+  //console.log(total);
+
 }
  return (
    <View style={styles.container_one}>
@@ -46,8 +52,10 @@ const setCounter_increment = (item) => {
        vertical
        showsVerticalScrollIndicator = {false}
        data = {food_items}
-       keyExtractor={food_item => food_item.name}
-       keyExtractor={food_item => food_item.image}
+       keyExtractor={food_item => food_item.name.toString()}
+       keyExtractor={food_item => food_item.image.toString()}
+       keyExtractor={food_item => food_item.price.toString()}
+
        renderItem={({ item }) => {
            return (
              <TouchableOpacity
@@ -77,11 +85,13 @@ const setCounter_increment = (item) => {
 
      <View style={styles.buttonContainer_two}>
        <Button
-           onPress = {() => navigation.navigate("ShowList", {id_one: grocery_items, id_two: state.count})}
+           onPress = {() => navigation.navigate("ShowList", {id_one: grocery_items, id_two: total})}
            title = "Save List"
            />
            </View>
-             <Text> Current Count: {state.count} </Text>
+             <View>
+                <Text style= {styles.textStyle_three}> Grocery Item Count: {state.count} </Text>
+              </View>
        </View>
      );
 };
@@ -124,6 +134,10 @@ textStyle: {
 
 textStyle_two: {
  fontSize: 20,
+},
+
+textStyle_three: {
+ fontSize: 15,
 },
 
 image: {
