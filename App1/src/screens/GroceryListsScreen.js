@@ -5,7 +5,7 @@ import { StackNavigator } from 'react-navigation';
 
 const GroceryListsScreen = ({navigation}) => {
   var lists = [];
-
+  
   //Retrieve data helper function
   const retrieveData = async (item) => {
     try {
@@ -14,7 +14,7 @@ const GroceryListsScreen = ({navigation}) => {
         // We have data!!
         console.log(value);
         console.log("Retrieve pressed");
-        navigation.navigate("ShowDB", {id_one: value});
+        navigation.navigate("ShowDB", {id_one: value, id_two: item});
       }
     } catch (error) {
       // Error retrieving data
@@ -40,8 +40,6 @@ const GroceryListsScreen = ({navigation}) => {
   }
 
   get_keys();
-
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -52,10 +50,11 @@ const GroceryListsScreen = ({navigation}) => {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress= {() => retrieveData(item)
-              }
+              onPress= {() => retrieveData(item)}
               >
-              <Text style= {styles.textStyle}>{item}</Text>
+               <View style= {styles.container_two}>
+                  <Text style= {styles.textStyle}>List: {item}</Text>
+                </View>
               </TouchableOpacity>
           );
         }}
@@ -77,11 +76,18 @@ container: {
   flex: 1,
   justifyContent: 'center',
 },
+container_two: {
+ flex: 1,
+ justifyContent: 'center',
+ borderColor: "black",
+ borderWidth: 1,
+},
   buttonContainer: {
-  margin: 30
+    margin: 30,
+    fontSize: 30,
   },
   textStyle: {
-  marginVertical: 30
+    marginVertical: 30
 }
 });
 

@@ -18,7 +18,8 @@ const save_list_func = () => {
   var day = new Date().getDate();
   var year = new Date().getFullYear();
   var min = new Date().getMinutes();
-  full_date = month + '/' + day + '/' + year + '/' + min;
+  var hour = new Date().getHours();
+  full_date = month + '/' + day + '/' + year + '/' + "  " + hour + ':' + min;
   storeData(full_date);
 }
 
@@ -31,7 +32,6 @@ const storeData = async (full_date) => {
   }
 };
 
-
 return(
 <View style={styles.container}>
 
@@ -43,7 +43,9 @@ return(
         data = {id_one}
         renderItem={({ item }) => {
             return (
+              <View style={styles.container_three}>
                  <Text style= {styles.textStyle}>{item}</Text>
+              </View>
             );
         }}
         />
@@ -51,9 +53,6 @@ return(
 
     <View>
         <Text style={styles.textStyle_two}> Number of items: {id_one.length}</Text>
-    </View>
-
-    <View>
         <Text style={styles.textStyle_two}> Expected Total: {id_two}</Text>
     </View>
 
@@ -70,6 +69,13 @@ return(
             title = "Set Reminder"
            />
         </View>
+
+      <View style={styles.buttonContainer}>
+          <Button
+            onPress = {() => navigation.navigate("Home")}
+            title = "HomeScreen"
+             />
+        </View>
   </View>
 
 )
@@ -83,6 +89,13 @@ container: {
 container_two: {
   flex: 1,
   justifyContent: 'center',
+},
+
+container_three: {
+
+  justifyContent: 'center',
+  borderColor: "black",
+  borderWidth: 1,
 },
 
 textStyle: {
