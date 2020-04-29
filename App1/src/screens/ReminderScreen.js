@@ -4,9 +4,6 @@ import { Notifications } from 'expo';
 import { Permissions } from 'expo-permissions';
 import Constants from 'expo-constants';
 
-
-
-
 const ReminderScreen = () => {
   return (
 <View style={styles.buttonContainer}>
@@ -111,7 +108,6 @@ const scheduleNotification_Four = async () => {
   Alert.alert("Notification Set")
 };
 
-
 //https://docs.expo.io/versions/latest/sdk/permissions/
  async function alertIfRemoteNotificationsDisabledAsync() {
   const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
@@ -119,7 +115,6 @@ const scheduleNotification_Four = async () => {
     alert('Hey! You might want to enable notifications for my app, they are good.');
   }
 }
-
 
 //Turn off notifications
 const cancelAllScheduledNotifications = async  () => {
