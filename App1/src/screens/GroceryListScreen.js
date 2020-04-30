@@ -2,6 +2,7 @@
 import React, { useReducer, useState } from 'react'
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Alert, Image } from 'react-native';
 import imageDetail from '../components/imageDetail'
+import Grocerybear from '../api/Grocerybear';
 
 const reducer = (state, action) => {
  // state === {count: number }
@@ -16,14 +17,27 @@ const reducer = (state, action) => {
  }
 };
 
+//Helper funtion to query API class for grocery data.
+const get_price = async () => {
+  var myInstance = new Grocerybear();
+  var price_c = await myInstance.search();
+  //console.log(price_c);
+  var milk = await parseFloat(price_c);
+  console.log(milk);
+  return milk;
+}
+
 const GroceryListScreen = ({navigation}) => {
- const[state, dispatch] = useReducer(reducer, {count: 0})
- const[total, set_total] = useState(0)
+  const[state, dispatch] = useReducer(reducer, {count: 0})
+  const[total, set_total] = useState(0)
+
+  var milk = get_price();
+  console.log(milk);
 
  //Food list array of tuples
  const food_items = [
  {name: 'eggs',      image: require('../../assets/eggs.jpg'), price: 3.25},
- {name: 'milk',      image: require ('../../assets/milk.jpg'), price: 4.99},
+ {name: 'milk',      image: require ('../../assets/milk.jpg'), price: 0},
  {name: 'bread',     image: require('../../assets/bread.jpg'), price: 2.99},
  {name: 'coffee',    image: require('../../assets/coffee.jpeg'), price: 11.00},
  {name: 'beer',      image: require('../../assets/beer.jpg'), price: 10.99},
@@ -32,6 +46,8 @@ const GroceryListScreen = ({navigation}) => {
  {name: 'rice',      image: require('../../assets/rice.jpg'), price: 3.00},
  {name: 'carrot',    image: require ('../../assets/carrot.jpeg'), price: 1.50},
 ];
+
+ food_items[1].price = milk;
 
 //Array that is constructed and passed to ShowListScreen.js
 const [grocery_items, set_grocery_items] = useState([])
